@@ -3,7 +3,7 @@
 <head>
 <title>현재 시간</title>
 </head>
-<body>
+<body>//
 지금 : <%= new java.util.Date() %>
 </body>
 </html>
