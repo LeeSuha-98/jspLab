@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Thermometer {
+	
+
 
 	private Map<String, Double> locationCelsiusMap = 
 			new HashMap<String, Double>();

@@ -13,6 +13,7 @@
 	서울 온도: 섭씨 ${t.getCelsius('서울')}도 / 화씨 ${t.getFahrenheit('서울')}
 
 	<br/>
-	정보: ${t.info}
+	정보: ${t.info} <br>
+	정보: ${t.getInfo()}<br>
 </body>
 </html>
