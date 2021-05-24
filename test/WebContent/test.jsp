@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-지금 : <%= new java.util.Date() %>
+지금 시간은 : <%= new java.util.Date() %>
 
 </body>
 </html>
