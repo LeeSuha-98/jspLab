@@ -7,7 +7,7 @@ ${ vals = [20, 17, 30, 2, 9, 23] ;
   sortedVals = vals.stream().sorted().toList() }
 <hr>
 ${ vals = [20, 17, 30, 2, 9, 23] ; 
-  sortedVals = vals.stream().sorted((x1, x2) -> x1 < x2 ? 1 : -1).toList() }
+  sortedVals = vals.stream().sorted((x1, x2) -> x1 < x2 ? 1 : -1).toList() } <!-- 뒤에꺼가 크면 1리턴, 아니라면 -1을 리턴한다. -->
 <hr>
 <%
     List<Member> memberList = Arrays.asList(
