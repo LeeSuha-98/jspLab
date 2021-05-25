@@ -18,6 +18,7 @@
 	Connection conn = null;
 	Statement stmt = null;
 	
+	
 	try {
 		String jdbcDriver = "jdbc:mysql://localhost:3306/chap14?" +
 							"useUnicode=true&characterEncoding=utf8";

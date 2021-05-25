@@ -13,6 +13,7 @@
 <head><title>회원 정보</title></head>
 <body>
 
+
 <%
 	Class.forName("com.mysql.jdbc.Driver");
 	

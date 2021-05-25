@@ -12,7 +12,7 @@
 		//request.getSession().setAttribute("email", email);
 		//response.addCookie(Cookies.createCookie("AUTH", email, "/", -1));
 		session.setAttribute("MEMBERID", email);
-		response.sendRedirect("../main/index.jsp");
+		response.sendRedirect("../main/index.jsp?locale=ko");
 	} else {
 %>
 <script>
