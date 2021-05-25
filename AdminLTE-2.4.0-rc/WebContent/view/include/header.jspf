@@ -416,6 +416,8 @@
 						<ul class="treeview-menu">
 							<li><a href="../examples/boardGeneral.jsp"><i
 									class="fa fa-circle-o"></i> 일반 게시판</a></li>
+									<li><a href="../examples/bangml.jsp"><i
+									class="fa fa-circle-o"></i> 방명록</a></li>
 							<li><a href="../examples/boardDonga.jsp"><i
 									class="fa fa-circle-o"></i> 동아일보 게시판</a></li>
 							<li><a href="../examples/chosun.html"><i
