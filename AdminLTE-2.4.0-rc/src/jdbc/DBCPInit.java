@@ -36,10 +36,10 @@ public class DBCPInit extends HttpServlet {
 	private void initConnectionPool() {
 		try {
 			String jdbcUrl = 
-					"jdbc:mysql://localhost:3306/chap14?" + 
+					"jdbc:mysql://localhost:3306/guestbook?" + 
 					"useUnicode=true&characterEncoding=utf8";
 			String username = "jspexam";
-			String pw = "jsppw";
+			String pw = "jsppw"; /* 패스워드를 박아놓는 것= 하드코딩 */
 
 			ConnectionFactory connFactory = 
 					new DriverManagerConnectionFactory(jdbcUrl, username, pw);
@@ -49,8 +49,8 @@ public class DBCPInit extends HttpServlet {
 			poolableConnFactory.setValidationQuery("select 1");
 
 			GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
-			poolConfig.setTimeBetweenEvictionRunsMillis(1000L * 60L * 5L);  // 5분 간격으로 유효한 커넥스를 검증한다.
-			poolConfig.setTestWhileIdle(true); // true이면 유효 커넥션이 유효한지 검사한다.
+			poolConfig.setTimeBetweenEvictionRunsMillis(1000L * 60L * 5L);
+			poolConfig.setTestWhileIdle(true);
 			poolConfig.setMinIdle(4);
 			poolConfig.setMaxTotal(50);
 
@@ -61,7 +61,7 @@ public class DBCPInit extends HttpServlet {
 			Class.forName("org.apache.commons.dbcp2.PoolingDriver");
 			PoolingDriver driver = 
 					(PoolingDriver) DriverManager.getDriver("jdbc:apache:commons:dbcp:");
-			driver.registerPool("chap14", connectionPool);
+			driver.registerPool("guestbook", connectionPool);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

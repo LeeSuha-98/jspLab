@@ -39,7 +39,7 @@ public class DBCPInit extends HttpServlet {
 					"jdbc:mysql://localhost:3306/guestbook?" + 
 					"useUnicode=true&characterEncoding=utf8";
 			String username = "jspexam";
-			String pw = "jsppw";
+			String pw = "jsppw"; /* 패스워드를 박아놓는 것= 하드코딩 */
 
 			ConnectionFactory connFactory = 
 					new DriverManagerConnectionFactory(jdbcUrl, username, pw);
