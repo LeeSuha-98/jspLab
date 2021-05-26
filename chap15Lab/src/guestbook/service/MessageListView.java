@@ -9,7 +9,7 @@ public class MessageListView {
 	private int messageTotalCount; //10
 	private int currentPageNumber; //1
 	private List<Message> messageList; 
-	private int pageTotalCount;//2
+	private int pageTotalCount;//4
 	private int messageCountPerPage; //3
 	private int firstRow; //1
 	private int endRow; //3
