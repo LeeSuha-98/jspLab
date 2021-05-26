@@ -6,13 +6,13 @@ import guestbook.model.Message;
 
 public class MessageListView {
 
-	private int messageTotalCount; //0
-	private int currentPageNumber; //0
+	private int messageTotalCount; //10
+	private int currentPageNumber; //1
 	private List<Message> messageList; 
-	private int pageTotalCount;
+	private int pageTotalCount;//2
 	private int messageCountPerPage; //3
-	private int firstRow; //0
-	private int endRow; //0
+	private int firstRow; //1
+	private int endRow; //3
 
 	public MessageListView(List<Message> messageList, int messageTotalCount, 
 			int currentPageNumber, int messageCountPerPage, 
