@@ -7,7 +7,7 @@
 	version="3.1">
 
 	<session-config>
-		<session-timeout>1</session-timeout>
+		<session-timeout>60</session-timeout>
 	</session-config>
 
 
@@ -35,6 +35,12 @@
 	<servlet>
 		<servlet-name>DBCPInit</servlet-name>
 		<servlet-class>jdbc.DBCPInit</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>DBCPInitGuestbook</servlet-name>
+		<servlet-class>jdbc.DBCPInitGuestbook</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
