@@ -6,9 +6,9 @@ import article.model.Article;
 
 public class ArticlePage {
 
-	private int total;
-	private int currentPage;
-	private List<Article> content;
+	private int total; //2
+	private int currentPage; //1
+	private List<Article> content; //2개 article 객체포함한 리스트
 	private int totalPages;
 	private int startPage;
 	private int endPage;
@@ -22,9 +22,9 @@ public class ArticlePage {
 			startPage = 0;
 			endPage = 0;
 		} else {
-			totalPages = total / size;
-			if (total % size > 0) {
-				totalPages++;
+			totalPages = total / size; // 2 / 10=0
+			if (total % size > 0) {    // 2 % 10=2
+				totalPages++;          // 0 + 1=1
 			}
 			int modVal = currentPage % 5;
 			startPage = currentPage / 5 * 5 + 1;
