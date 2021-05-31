@@ -26,11 +26,11 @@ public class ArticlePage {
 			if (total % size > 0) {    // 2 % 10=2
 				totalPages++;          // 0 + 1=1
 			}
-			int modVal = currentPage % 5;
-			startPage = currentPage / 5 * 5 + 1;
+			int modVal = currentPage % 5; //1
+			startPage = currentPage / 5 * 5 + 1; //1/5*5+1=1
 			if (modVal == 0) startPage -= 5;
 			
-			endPage = startPage + 4;
+			endPage = startPage + 4; //1+4=5
 			if (endPage > totalPages) endPage = totalPages;
 		}
 	}
