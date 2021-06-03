@@ -4,7 +4,7 @@
 <body>
 <form action="<%= request.getContextPath() %>/login.jsp">
 아이디<input type="text" name="memberId">
-암<input type="password" name="password">
+암호<input type="password" name="password">
 <input type="submit" value="로그인">
 </form>
 </body>
