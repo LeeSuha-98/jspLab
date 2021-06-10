@@ -18,7 +18,7 @@ import mvc.command.NullHandler;
 
 public class ControllerUsingURI extends HttpServlet {
 
-    // 
+   
     private Map<String, CommandHandler> commandHandlerMap = 
     		new HashMap<>();
 
@@ -70,6 +70,7 @@ public class ControllerUsingURI extends HttpServlet {
         String viewPage = null;
         try {
             viewPage = handler.process(request, response);
+            // "/CARE/view/login/login.jsp"
         } catch (Throwable e) {
             throw new ServletException(e);
         }

@@ -1,4 +1,4 @@
-package auth.command;
+package handler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class LoginHandler implements CommandHandler {
 		try {
 			User user = loginService.login(id, password);
 			req.getSession().setAttribute("authUser", user);
-			res.sendRedirect(req.getContextPath() + "/main/food.do");
+			res.sendRedirect(req.getContextPath() + "/CARE/view/main/food-details.jsp");
 			return null;
 		} catch (LoginFailException e) {
 			errors.put("idOrPwNotMatch", Boolean.TRUE);

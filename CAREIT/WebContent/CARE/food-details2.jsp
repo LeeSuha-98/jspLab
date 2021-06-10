@@ -56,8 +56,8 @@
 					class="list-unstyled list-inline top-links text-md-right text-weight-bold">
 					<li class="list-inline-item"><a href="#">Help</a></li>
 					<li class="list-inline-item"><a href="#">Request Call Back</a></li>
-					<li class="list-inline-item"><a href="/login/login.jsp">Register</a></li>
-					<li class="list-inline-item"><a href="/login/login.jsp">Login</a></li>
+					<li class="list-inline-item"><a href="login.html">Register</a></li>
+					<li class="list-inline-item"><a href="login.html">Login</a></li>
 				</ul>
 				<!-- Top Links Ends -->
 				<!-- Starts -->
@@ -100,7 +100,7 @@
 						Grid</a></li>
 				<li class="nav-item active"><a href="food-details.html"
 					class="nav-link">Food Detail</a></li>
-				<li class="nav-item"><a href="/login/login.jsp" class="nav-link">Login
+				<li class="nav-item"><a href="login.html" class="nav-link">Login
 						&amp; Register</a></li>
 				<li class="nav-item"><a href="terms.html" class="nav-link">Terms</a></li>
 				<li class="nav-item"><a href="policy.html" class="nav-link">Policy</a></li>
@@ -119,7 +119,7 @@
 							class="fa fa-angle-right"></i> Food Grid</a>
 						<a href="food-details.html" class="dropdown-item active"><i
 							class="fa fa-angle-right"></i> Food Detail</a>
-						<a href="/login/login.jsp" class="dropdown-item"><i
+						<a href="login.html" class="dropdown-item"><i
 							class="fa fa-angle-right"></i> Login &amp; Register</a>
 						<a href="terms.html" class="dropdown-item"><i
 							class="fa fa-angle-right"></i> Terms</a>
@@ -255,7 +255,7 @@
 										if (answer == true) {
 											location.href = "/CAREIT/login.do";
 										} else if (answer != true) {
-											location.href = "/login/login.jsp";
+											location.href = "food-details.jsp";
 										}
 
 									}
@@ -276,7 +276,7 @@
 										if (answer == true) {
 											location.href = "viewLike.jsp";
 										} else if (answer != true) {
-											location.href = "/view/main/food-details.jsp";
+											location.href = "food-details.jsp";
 										}
 
 									}

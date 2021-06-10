@@ -66,6 +66,11 @@
 		<url-pattern>/article/modify.do</url-pattern>
 	</filter-mapping>
  -->
+ 
+ 
+    <welcome-file-list>
+    	<welcome-file>/CARE/view/login/login.jsp</welcome-file>
+    </welcome-file-list>
 
 
 

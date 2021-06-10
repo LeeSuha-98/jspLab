@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../include/header.jspf"%>
+
+
+
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ page import="java.sql.DriverManager"%>
 <%@ page import="java.sql.Connection"%>
 <%@ page import="java.sql.Statement"%>
 <%@ page import="java.sql.ResultSet"%>
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*"%>
 
 
 <meta charset="utf-8">
@@ -39,41 +44,12 @@
 
 
 
-<!-- Header Starts -->
-<header class="main-header">
-	<!-- Nested Container Starts -->
-	<div class="container text-xs-center text-sm-center text-lg-left">
-		<!-- Nested Row Starts -->
-		<div class="row">
-			<div class="col-md-4 col-sm-12">
-				<!-- Logo Starts -->
-				<img src="images/logo.png" alt="FoodBingo" class="logo img-fluid">
-				<!-- Logo Ends -->
-			</div>
-			<div class="col-md-8 col-sm-12">
-				<!-- Top Links Starts -->
-				<ul
-					class="list-unstyled list-inline top-links text-md-right text-weight-bold">
-					<li class="list-inline-item"><a href="#">Help</a></li>
-					<li class="list-inline-item"><a href="#">Request Call Back</a></li>
-					<li class="list-inline-item"><a href="/login/login.jsp">Register</a></li>
-					<li class="list-inline-item"><a href="/login/login.jsp">Login</a></li>
-				</ul>
-				<!-- Top Links Ends -->
-				<!-- Starts -->
-				<ul class="list-unstyled list-inline text-md-right order-info">
-					<li class="list-inline-item lead"><i class="fa fa-phone"></i>
-						Call : 001 9876 543 210</li>
-					<li class="list-inline-item d-xs-none d-sm-none d-md-inline">&nbsp;</li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-light animation">Order Food Online!</a></li>
-				</ul>
-				<!-- Ends -->
-			</div>
-		</div>
-		<!-- Nested Row Ends -->
-	</div>
-	<!-- Nested Container Ends -->
+
+</div>
+</div>
+<!-- Nested Row Ends -->
+</div>
+<!-- Nested Container Ends -->
 </header>
 <!-- Header Ends -->
 <!-- Main Menu Starts -->
@@ -100,8 +76,8 @@
 						Grid</a></li>
 				<li class="nav-item active"><a href="food-details.html"
 					class="nav-link">Food Detail</a></li>
-				<li class="nav-item"><a href="/login/login.jsp" class="nav-link">Login
-						&amp; Register</a></li>
+				<li class="nav-item"><a href="/login/login.jsp"
+					class="nav-link">Login &amp; Register</a></li>
 				<li class="nav-item"><a href="terms.html" class="nav-link">Terms</a></li>
 				<li class="nav-item"><a href="policy.html" class="nav-link">Policy</a></li>
 				<li class="nav-item"><a href="contact.html" class="nav-link">Contact
@@ -233,13 +209,25 @@
 				<!-- Menu Tabs List Ends -->
 				<!-- Menu Tabs Content Starts -->
 				<div class="tab-content">
+
+
+
+
+
+
+
+
+
+
 					<!-- Tab #1 Starts -->
 					<div id="menu" class="tab-pane fade show active">
+
 						<!-- Tab #1 Nested Row Starts -->
 						<div class="row">
 							<!-- Left Column Starts -->
 							<div class="col-md-4 col-sm-12">
 								<script>
+							
 									function wishList1() {
 
 										/*  let answer;
@@ -276,7 +264,7 @@
 										if (answer == true) {
 											location.href = "viewLike.jsp";
 										} else if (answer != true) {
-											location.href = "/view/main/food-details.jsp";
+											location.href = "food-details.jsp";
 										}
 
 									}
@@ -284,7 +272,6 @@
 
 
 
-								
 
 								<div class="side-block-1">
 									<h6>Delivery Menu</h6>
@@ -311,9 +298,16 @@
 									class="order-menu-tab-pane text-xs-center text-sm-center text-md-left">
 									<p class="text-center"></p>
 									<!-- Order Menu List #1 Starts -->
-
-
-
+									
+									1.메뉴 이름: ${menuinfo.menu } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									-가격: ${menuinfo.price } <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									-사진: ${menuinfo.menupic }<br><br>
+									
+									
+									
+									2.메뉴 이름: ${menuinfo.menu } &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									-가격: ${menuinfo.price } <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									-사진: ${menuinfo.menupic }<br>
 
 
 									<div class="spacer"></div>
@@ -378,8 +372,11 @@
 							<!-- Right Column Ends -->
 						</div>
 						<!-- Tab #1 Nested Row Ends -->
+
+
 					</div>
 					<!-- Tab #1 Ends -->
+
 					<!-- Tab #2 Starts -->
 					<div id="information" class="tab-pane fade">
 						<!-- Tab #2 Nested Row Starts -->
@@ -422,63 +419,12 @@
 
 									<!-- Takeway Hours Ends -->
 
-<%!// 변수 선언
-    Connection conn = null;
-	Statement stmt = null;
-	ResultSet rs = null;
-	String uid = "SCOTT";
-	String pwd = "TIGER";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String sql = "SELECT * FROM STOREINFO WHERE STORENO='1'";%>
-<%
-		try {
-		// 데이터베이스를 접속하기 위한 드라이버 SW 로드
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		// 데이터베이스에 연결하는 작업 수행
-		conn = DriverManager.getConnection(url, uid, pwd);
-		// 쿼리를 생성gkf 객체 생성
-		stmt = conn.createStatement();
-		// 쿼리 생성
-		rs = stmt.executeQuery(sql);
-	%>
 
-		
-		
-		
-		<%
-			while (rs.next()) {
-		%>
-		
-		  ＃ 매장 주소: <%=rs.getString("ADDRESS")%> <br>
-		  ＃ 매장 영업시간: <%=rs.getString("TIME")%> <br>
-		  ＃ 매장 휴무일: <%=rs.getString("CLOSEDDAYS")%> <br>
-		  ＃ 매장 전화번호: <%=rs.getInt("CCALLNUMBER")%> <br>
-			
-			
-			
-		
-	
-
-	<%
-		}
-	} catch (Exception e) {
-	e.printStackTrace();
-	} finally {
-	try {
-	if (rs != null) {
-		rs.close();
-	}
-	if (stmt != null) {
-		stmt.close();
-	}
-	if (conn != null) {
-		conn.close();
-	}
-	} catch (Exception e) {
-	e.printStackTrace();
-	}
-	}
-	%>
+							
+							가게주소: ${storeinfo.address }<br>
+							영업시간: ${storeinfo.time }<br>
+					        쉬는 날: ${storeinfo.closeddays }<br>
+							전화번호: ${storeinfo.callnumber }<br>
 
 
 
@@ -638,11 +584,27 @@
 													<li class="list-inline-item"><i class="fa fa-star"></i></li>
 													<li class="list-inline-item"><i class="fa fa-star"></i></li>
 												</ul>
-
-												<a href="#" input type="submit"
-													class="btn btn-black animation text-uppercase float-right"
-													onclick="wishList1();">리뷰쓰기</a>
-												<form method="get" name="frm" id="frm"></form>
+												
+												<%-- <c:if test="${sessionScope.sessionID !=null}"> --%>
+														
+															
+												<c:when test="${sessionScope.sessionID !=null}">	
+												
+												
+														
+															
+																<input type="hidden" name="reviewinfo"
+																	value="${reviewinfo.reviewno}"> <input type="hidden"
+																	name="userno" value="${sessionScope.sessionID}"
+																	class="btn btn-black animation text-uppercase float-right" onclick="wishList1();">
+												</c:when>
+												<c:otherwise>
+												</c:otherwise>
+												
+												
+												
+												
+											
 
 
 
@@ -655,6 +617,30 @@
 									</div>
 									<!-- Reviews Form Box Ends -->
 									<!-- Reviews List Starts -->
+										<!-- Default box -->
+		<div class="box">
+			<div class="box-header with-border">
+				
+
+				<div class="box-tools pull-right">
+					<button type="button" class="btn btn-box-tool"
+						data-widget="collapse" data-toggle="tooltip" title="Collapse">
+						<i class="fa fa-minus"></i>
+					</button>
+					<button type="button" class="btn btn-box-tool" data-widget="remove"
+						data-toggle="tooltip" title="Remove">
+						<i class="fa fa-times"></i>
+					</button>
+				</div>
+			</div>
+			<div class="box-body">
+
+
+
+
+			
+
+									
 									<div class="reviews-box">
 
 										<style type="text/css">
@@ -769,33 +755,7 @@
 										</script>
 
 
-										<div id="wrap">
-											<br>
-											<br>
-											<div id="board">
-												<table id="detailBoard" width="800" border="3"
-													bordercolor="lightgray">
-
-													<tr>
-														<td id="title">작성일</td>
-														<td>${board.board_date}</td>
-													</tr>
-													<tr>
-														<td id="title">작성자</td>
-														<td>${board.board_id}</td>
-													</tr>
-
-													<tr>
-														<td id="title">내 용</td>
-														<td>${board.board_content}</td>
-													</tr>
-													<tr>
-														<td id="title">첨부파일</td>
-														<td><a
-															href='FileDownloadAction.bo?file_name=${board.board_file}'>${board.board_file}</a>
-														</td>
-													</tr>
-
+										
 													<tr align="center" valign="middle">
 														<td colspan="5"><c:if
 																test="${sessionScope.sessionID !=null}">
@@ -810,8 +770,7 @@
 													</tr>
 												</table>
 											</div>
-											<br>
-											<br>
+											<br> <br>
 
 											<!-- 댓글 부분 -->
 											<div id="comment">
@@ -852,34 +811,22 @@
 														</c:forEach>
 													</c:if>
 
-													<!-- 로그인 했을 경우만 댓글 작성가능 -->
-													<c:if test="${sessionScope.sessionID !=null}">
-														<tr bgcolor="#F5F5F5">
-															<form id="writeCommentForm">
-																<input type="hidden" name="reviewinfo"
-																	value="${board.reviewno}"> <input type="hidden"
-																	name="userno" value="${sessionScope.sessionID}">
+													
 																<!-- 아이디-->
-																<td width="150">
-																	<div>${sessionScope.sessionID}</div>
-																</td>
+																
 																<!-- 본문 작성-->
 																<td width="550">
-																	<div>
-																		<textarea name="reviewcontent" rows="4" cols="70"></textarea>
-																	</div>
+																	
 																</td>
 																<!-- 댓글 등록 버튼 -->
 																<td width="100">
 																	<div id="btn" style="text-align: center;">
-																		<p>
-																			<a href="#" onclick="writeCmt()">[댓글등록]</a>
-																		</p>
+																		
 																	</div>
 																</td>
 															</form>
 														</tr>
-													</c:if>
+												
 
 												</table>
 											</div>
@@ -1088,28 +1035,26 @@
 				<h6 class="text-center">가게 편의정보</h6>
 				<!-- Heading Ends -->
 				<!-- Order Content Starts -->
+
+
+					총 좌석 수: <span class="float-right text-spl-color">${detailinfo.totalseat }개</span><br>
+					충전기가 있는 좌석 수: <span class="float-right text-spl-color">${detailinfo.socketseat }개</span><br>
+					디저트: <span class="float-right text-spl-color">${detailinfo.dessertsales }</span><br>
+					테라스: <span class="float-right text-spl-color">${detailinfo.terrace }</span><br>
+					루프탑: <span class="float-right text-spl-color">${detailinfo.rooftop }</span><br>
+					와이파이: <span class="float-right text-spl-color">${detailinfo.wifi }</span><br>
+					애견동반: <span class="float-right text-spl-color">${detailinfo.companiondog }</span><br>
+					주차공간: <span class="float-right text-spl-color">${detailinfo.parkingspace }</span><br>
+					노키즈존: <span class="float-right text-spl-color">${detailinfo.nokidszone }</span><br>
+					흡연존: <span class="float-right text-spl-color">${detailinfo.smokingarea }</span><br>
+					
+				
+
 				<div class="side-block-order-content">
 					<!-- Order Item List Starts -->
-					<ul class="list-unstyled order-item-list">
-						<li class="clearfix"><span class="float-left">총 테이블: </span>
-							<span class="float-right text-spl-color">1개</span></li>
-						<li class="clearfix"><span class="float-left">콘센트가 있는
-								테이블: </span> <span class="float-right text-spl-color">2개</span></li>
-						<li class="clearfix"><span class="float-left">디저트 판매:
-						</span> <span class="float-right text-spl-color">O</span></li>
-						<li class="clearfix"><span class="float-left">루프탑: </span> <span
-							class="float-right text-spl-color">O</span></li>
-						<li class="clearfix"><span class="float-left">와이파이: </span> <span
-							class="float-right text-spl-color">O</span></li>
-						<li class="clearfix"><span class="float-left">애견 동반: </span>
-							<span class="float-right text-spl-color">X</span></li>
-						<li class="clearfix"><span class="float-left">주차 공간: </span>
-							<span class="float-right text-spl-color">O</span></li>
-						<li class="clearfix"><span class="float-left">어린이 동반:
-						</span> <span class="float-right text-spl-color">X</span></li>
-						<li class="clearfix"><span class="float-left">흡연 구역: </span>
-							<span class="float-right text-spl-color">X</span></li>
 
+
+				
 					</ul>
 					<!-- Order Item List Ends -->
 					<!-- Order Item Total Starts -->
@@ -1177,159 +1122,9 @@
 	<!-- Nested Container Ends -->
 </section>
 <!-- Newsletter Section Ends -->
-<!-- Footer Area Starts -->
-<footer class="main-footer">
-	<!-- Nested Container Starts -->
-	<div class="container">
-		<!-- Starts -->
-		<div class="row">
-			<!-- Logo Starts -->
-			<div
-				class="col-lg-3 col-sm-12 text-xs-center text-sm-center text-lg-left">
-				<img src="images/logo.png" alt="FoodBingo" class="img-fluid">
-			</div>
-			<!-- Logo Ends -->
-			<!-- Page Links Starts -->
-			<div class="col-lg-6 col-sm-12">
-				<ul class="list-unstyled list-inline page-links text-center">
-					<li class="list-inline-item"><a href="index.html">Home</a></li>
-					<li class="list-inline-item"><a href="about.html">About Us</a></li>
-					<li class="list-inline-item"><a href="#">Recipes</a></li>
-					<li class="list-inline-item"><a href="#">Foods</a></li>
-					<li class="list-inline-item"><a href="#">Catering</a></li>
-					<li class="list-inline-item"><a href="contact.html">Contact
-							Us</a></li>
-				</ul>
-			</div>
-			<!-- Page Links Ends -->
-			<!-- Social Media Links Starts -->
-			<div class="col-lg-3 col-sm-12">
-				<ul
-					class="list-unstyled list-inline sm-links text-xs-center text-sm-center text-lg-right">
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-twitter"></i>
-					</a></li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-facebook"></i>
-					</a></li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-linkedin"></i>
-					</a></li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-skype"></i>
-					</a></li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-pinterest"></i>
-					</a></li>
-				</ul>
-			</div>
-			<!-- Social Media Links Ends -->
-		</div>
-		<!-- Ends -->
-		<!-- Address Section Starts -->
-		<section
-			class="foot-address text-xs-center text-sm-center text-md-left">
-			<h5 class="mt-4 mb-3">Address :</h5>
-			<!-- Nested Row Starts -->
-			<div class="row">
-				<ul class="list-unstyled col-md-4 col-sm-12">
-					<li>28 Jackson Blvd Ste 1020 Chicago</li>
-					<li>IL 60604-2340</li>
-				</ul>
-				<ul class="list-unstyled col-md-4 col-sm-12">
-					<li>Freephone: +1-800-559-1234</li>
-					<li>Telephone: +1-800-603-9874</li>
-				</ul>
-				<ul class="list-unstyled col-md-4 col-sm-12">
-					<li>FAX: +1-800-999-9898</li>
-					<li>E-mail: <a href="mailto:mail@foodbingodemo.com">mail@foodbingodemo.com</a></li>
-				</ul>
-			</div>
-			<!-- Nested Row Ends -->
-		</section>
-		<!-- Address Section Ends -->
-		<!-- Links Section Starts -->
-		<section
-			class="footer-links-section text-xs-center text-sm-center text-md-left">
-			<!-- Nested Row Starts -->
-			<div class="row">
-				<!-- Link Col #1 Starts -->
-				<div class="col-lg-3 col-md-6 col-sm-12">
-					<h5>Restaurants By Area</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">Restaurants in Madhapur</a></li>
-						<li><a href="#">Restaurants in Sainikpuri</a></li>
-						<li><a href="#">Restaurants in Banjara Hills</a></li>
-						<li><a href="#">Restaurants in Gachibowli</a></li>
-						<li><a href="#">Restaurants in Jubilee Hills</a></li>
-						<li><a href="#">Restaurants in Secunderabad</a></li>
-						<li><a href="#">Restaurants in Hitech City</a></li>
-					</ul>
-				</div>
-				<!-- Link Col #1 Ends -->
-				<!-- Link Col #2 Starts -->
-				<div class="col-lg-3 col-md-6 col-sm-12">
-					<h5>Top Rated Cuisines</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">North Indian</a></li>
-						<li><a href="#">Italian</a></li>
-						<li><a href="#">Bengali</a></li>
-						<li><a href="#">Chinese</a></li>
-						<li><a href="#">Mughlai</a></li>
-						<li><a href="#">Continental</a></li>
-						<li><a href="#">Hyderabadi Biriyani</a></li>
-					</ul>
-				</div>
-				<!-- Link Col #2 Ends -->
-				<!-- Link Col #3 Starts -->
-				<div class="col-lg-3 col-md-6 col-sm-12">
-					<h5>Popular Restaurants</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">Hinglish Cafe</a></li>
-						<li><a href="#">Mama Mia Italia</a></li>
-						<li><a href="#">Khaan Saab</a></li>
-						<li><a href="#">Call Of Benga</a></li>
-						<li><a href="#">China By Marcopolo</a></li>
-						<li><a href="#">Ulavacharu</a></li>
-						<li><a href="#">Reshmi's</a></li>
-					</ul>
-				</div>
-				<!-- Link Col #3 Ends -->
-				<!-- Link Col #4 Starts -->
-				<div class="col-lg-3 col-md-6 col-sm-12">
-					<h5>Popular Cities</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">Pune</a></li>
-						<li><a href="#">Bangalore</a></li>
-						<li><a href="#">Hyderabad</a></li>
-						<li><a href="#">Chennai</a></li>
-						<li><a href="#">Delhi</a></li>
-						<li><a href="#">Mumbai</a></li>
-						<li><a href="#">Gurgaon</a></li>
-					</ul>
-				</div>
-				<!-- Link Col #4 Ends -->
-			</div>
-			<!-- Nested Row Ends -->
-		</section>
-		<!-- Links Section Ends -->
-		<!-- Copyright Starts -->
-		<p class="copyright text-center mb-0">All Rights Reserved &copy;
-			2010 - 2018 Food Bingo Service.</p>
-		<!-- Copyright Ends -->
-	</div>
-	<!-- Nested Container Ends -->
-</footer>
-<!-- Footer Area Ends -->
-<!-- Template JS Files -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/plugins/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
-<script src="js/plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="js/plugins/owl-carousel/owl.carousel.js"></script>
-<script src="js/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
-<script
-	src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
-<script src="js/custom.js"></script>
 
+
+
+
+
+<%@ include file="../include/footer.jspf"%>

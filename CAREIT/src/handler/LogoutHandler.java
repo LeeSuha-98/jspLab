@@ -1,4 +1,4 @@
-package auth.command;
+package handler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ public class LogoutHandler implements CommandHandler {
 		if (session != null) {
 			session.invalidate();
 		}
-		res.sendRedirect(req.getContextPath() + "/WebContent/care/index.jsp");
+		res.sendRedirect(req.getContextPath() + "/login.do");
 		return null;
 	}
 

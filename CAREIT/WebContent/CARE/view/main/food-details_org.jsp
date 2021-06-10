@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../include/header.jspf"%>
+
+
+
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ page import="java.sql.DriverManager"%>
 <%@ page import="java.sql.Connection"%>
 <%@ page import="java.sql.Statement"%>
 <%@ page import="java.sql.ResultSet"%>
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*"%>
 
 
 <meta charset="utf-8">
@@ -39,41 +44,12 @@
 
 
 
-<!-- Header Starts -->
-<header class="main-header">
-	<!-- Nested Container Starts -->
-	<div class="container text-xs-center text-sm-center text-lg-left">
-		<!-- Nested Row Starts -->
-		<div class="row">
-			<div class="col-md-4 col-sm-12">
-				<!-- Logo Starts -->
-				<img src="images/logo.png" alt="FoodBingo" class="logo img-fluid">
-				<!-- Logo Ends -->
-			</div>
-			<div class="col-md-8 col-sm-12">
-				<!-- Top Links Starts -->
-				<ul
-					class="list-unstyled list-inline top-links text-md-right text-weight-bold">
-					<li class="list-inline-item"><a href="#">Help</a></li>
-					<li class="list-inline-item"><a href="#">Request Call Back</a></li>
-					<li class="list-inline-item"><a href="/login/login.jsp">Register</a></li>
-					<li class="list-inline-item"><a href="/login/login.jsp">Login</a></li>
-				</ul>
-				<!-- Top Links Ends -->
-				<!-- Starts -->
-				<ul class="list-unstyled list-inline text-md-right order-info">
-					<li class="list-inline-item lead"><i class="fa fa-phone"></i>
-						Call : 001 9876 543 210</li>
-					<li class="list-inline-item d-xs-none d-sm-none d-md-inline">&nbsp;</li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-light animation">Order Food Online!</a></li>
-				</ul>
-				<!-- Ends -->
-			</div>
-		</div>
-		<!-- Nested Row Ends -->
-	</div>
-	<!-- Nested Container Ends -->
+
+</div>
+</div>
+<!-- Nested Row Ends -->
+</div>
+<!-- Nested Container Ends -->
 </header>
 <!-- Header Ends -->
 <!-- Main Menu Starts -->
@@ -100,8 +76,8 @@
 						Grid</a></li>
 				<li class="nav-item active"><a href="food-details.html"
 					class="nav-link">Food Detail</a></li>
-				<li class="nav-item"><a href="/login/login.jsp" class="nav-link">Login
-						&amp; Register</a></li>
+				<li class="nav-item"><a href="/login/login.jsp"
+					class="nav-link">Login &amp; Register</a></li>
 				<li class="nav-item"><a href="terms.html" class="nav-link">Terms</a></li>
 				<li class="nav-item"><a href="policy.html" class="nav-link">Policy</a></li>
 				<li class="nav-item"><a href="contact.html" class="nav-link">Contact
@@ -233,8 +209,19 @@
 				<!-- Menu Tabs List Ends -->
 				<!-- Menu Tabs Content Starts -->
 				<div class="tab-content">
+
+
+
+
+
+
+
+
+
+
 					<!-- Tab #1 Starts -->
 					<div id="menu" class="tab-pane fade show active">
+
 						<!-- Tab #1 Nested Row Starts -->
 						<div class="row">
 							<!-- Left Column Starts -->
@@ -276,7 +263,7 @@
 										if (answer == true) {
 											location.href = "viewLike.jsp";
 										} else if (answer != true) {
-											location.href = "/view/main/food-details.jsp";
+											location.href = "food-details.jsp";
 										}
 
 									}
@@ -284,7 +271,7 @@
 
 
 
-								
+
 
 								<div class="side-block-1">
 									<h6>Delivery Menu</h6>
@@ -311,6 +298,67 @@
 									class="order-menu-tab-pane text-xs-center text-sm-center text-md-left">
 									<p class="text-center"></p>
 									<!-- Order Menu List #1 Starts -->
+									<%!// 변수 선언
+	Connection conn = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+	String uid = "SCOTT";
+	String pwd = "TIGER";
+	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	String sql = "SELECT STOREINFO.address, STOREINFO.callnumber, STOREINFO.closeddays, STOREINFO.storename, STOREINFO.storeno, STOREINFO.time,MENUINFO.menu, MENUINFO.STORENO, MENUINFO.PRICE, MENUINFO.MENUPIC, DETAILINFO.STORENO, DETAILINFO.TOTALSEAT as TOTALSEAT, DETAILINFO.SOCKETSEAT, DETAILINFO.DESSERTSALES,  DETAILINFO.TERRACE, DETAILINFO.ROOFTOP, DETAILINFO.WIFI, DETAILINFO.COMPANIONDOG, DETAILINFO.PARKINGSPACE,detailinfo.nokidszone,detailinfo.smokingarea FROM STOREINFO, MENUINFO,DETAILINFO WHERE storeinfo.storeno = menuinfo.storeno AND menuinfo.storeno=detailinfo.storeno  AND menuinfo.storeno='1'";%>
+			
+
+									<%
+										try {
+										// 데이터베이스를 접속하기 위한 드라이버 SW 로드
+										Class.forName("oracle.jdbc.driver.OracleDriver");
+										// 데이터베이스에 연결하는 작업 수행
+										conn = DriverManager.getConnection(url, uid, pwd);
+										// 쿼리를 생성gkf 객체 생성
+										stmt = conn.createStatement();
+										// 쿼리 생성
+										rs = stmt.executeQuery(sql);
+									%>
+
+
+
+
+									<%
+										while (rs.next()) {
+									%>
+
+				 					매장 메뉴:
+									<%=rs.getString("MENU")%><br> 
+									-가격: <%=rs.getString("PRICE")%><br> -메뉴사진:<%=rs.getString("MENUPIC")%>
+									<br> 
+
+
+
+
+
+
+
+									<%
+										}
+									} catch (Exception e) {
+									e.printStackTrace();
+									} finally {
+									try {
+									if (rs != null) {
+										rs.close();
+									}
+									if (stmt != null) {
+										stmt.close();
+									}
+									if (conn != null) {
+										conn.close();
+									}
+									} catch (Exception e) {
+									e.printStackTrace();
+									}
+									}
+									%>
+
 
 
 
@@ -378,8 +426,11 @@
 							<!-- Right Column Ends -->
 						</div>
 						<!-- Tab #1 Nested Row Ends -->
+
+
 					</div>
 					<!-- Tab #1 Ends -->
+
 					<!-- Tab #2 Starts -->
 					<div id="information" class="tab-pane fade">
 						<!-- Tab #2 Nested Row Starts -->
@@ -422,63 +473,61 @@
 
 									<!-- Takeway Hours Ends -->
 
-<%!// 변수 선언
-    Connection conn = null;
-	Statement stmt = null;
-	ResultSet rs = null;
-	String uid = "SCOTT";
-	String pwd = "TIGER";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String sql = "SELECT * FROM STOREINFO WHERE STORENO='1'";%>
-<%
-		try {
-		// 데이터베이스를 접속하기 위한 드라이버 SW 로드
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		// 데이터베이스에 연결하는 작업 수행
-		conn = DriverManager.getConnection(url, uid, pwd);
-		// 쿼리를 생성gkf 객체 생성
-		stmt = conn.createStatement();
-		// 쿼리 생성
-		rs = stmt.executeQuery(sql);
-	%>
 
-		
-		
-		
-		<%
-			while (rs.next()) {
-		%>
-		
-		  ＃ 매장 주소: <%=rs.getString("ADDRESS")%> <br>
-		  ＃ 매장 영업시간: <%=rs.getString("TIME")%> <br>
-		  ＃ 매장 휴무일: <%=rs.getString("CLOSEDDAYS")%> <br>
-		  ＃ 매장 전화번호: <%=rs.getInt("CCALLNUMBER")%> <br>
-			
-			
-			
-		
-	
+							<%
+										try {
+										// 데이터베이스를 접속하기 위한 드라이버 SW 로드
+										Class.forName("oracle.jdbc.driver.OracleDriver");
+										// 데이터베이스에 연결하는 작업 수행
+										conn = DriverManager.getConnection(url, uid, pwd);
+										// 쿼리를 생성gkf 객체 생성
+										stmt = conn.createStatement();
+										// 쿼리 생성
+										rs = stmt.executeQuery(sql);
+									%>
 
-	<%
-		}
-	} catch (Exception e) {
-	e.printStackTrace();
-	} finally {
-	try {
-	if (rs != null) {
-		rs.close();
-	}
-	if (stmt != null) {
-		stmt.close();
-	}
-	if (conn != null) {
-		conn.close();
-	}
-	} catch (Exception e) {
-	e.printStackTrace();
-	}
-	}
-	%>
+
+
+
+									<%
+										while (rs.next()) {
+									%>
+
+									＃ 매장 주소:
+									<%=rs.getString("ADDRESS")%>
+									<br> ＃ 매장 영업시간:
+									<%=rs.getString("TIME")%>
+									<br> ＃ 매장 휴무일:
+									<%=rs.getString("CLOSEDDAYS")%>
+									<br> ＃ 매장 전화번호:
+									<%=rs.getInt("CALLNUMBER")%>
+									<br>
+
+
+
+
+
+
+									<%
+										}
+									} catch (Exception e) {
+									e.printStackTrace();
+									} finally {
+									try {
+									if (rs != null) {
+										rs.close();
+									}
+									if (stmt != null) {
+										stmt.close();
+									}
+									if (conn != null) {
+										conn.close();
+									}
+									} catch (Exception e) {
+									e.printStackTrace();
+									}
+									}
+									%>
 
 
 
@@ -770,8 +819,7 @@
 
 
 										<div id="wrap">
-											<br>
-											<br>
+											<br> <br>
 											<div id="board">
 												<table id="detailBoard" width="800" border="3"
 													bordercolor="lightgray">
@@ -810,8 +858,7 @@
 													</tr>
 												</table>
 											</div>
-											<br>
-											<br>
+											<br> <br>
 
 											<!-- 댓글 부분 -->
 											<div id="comment">
@@ -1088,15 +1135,35 @@
 				<h6 class="text-center">가게 편의정보</h6>
 				<!-- Heading Ends -->
 				<!-- Order Content Starts -->
+
+
 				<div class="side-block-order-content">
 					<!-- Order Item List Starts -->
+
+
+				<%
+						try {
+						// 데이터베이스를 접속하기 위한 드라이버 SW 로드
+						Class.forName("oracle.jdbc.driver.OracleDriver");
+						// 데이터베이스에 연결하는 작업 수행
+						conn = DriverManager.getConnection(url, uid, pwd);
+						// 쿼리를 생성gkf 객체 생성
+						stmt = conn.createStatement();
+						// 쿼리 생성
+						rs = stmt.executeQuery(sql);
+					%>
+					<%
+						while (rs.next()) {
+					%>
+
+
 					<ul class="list-unstyled order-item-list">
-						<li class="clearfix"><span class="float-left">총 테이블: </span>
-							<span class="float-right text-spl-color">1개</span></li>
-						<li class="clearfix"><span class="float-left">콘센트가 있는
-								테이블: </span> <span class="float-right text-spl-color">2개</span></li>
-						<li class="clearfix"><span class="float-left">디저트 판매:
-						</span> <span class="float-right text-spl-color">O</span></li>
+						<li class="clearfix"><span class="float-left">총 좌석: </span>
+							<span class="float-right text-spl-color">...</span></li>
+						<li class="clearfix"><span class="float-left">콘센트가 있는 테이블:  </span> 
+							<span class="float-right text-spl-color">...</span></li>
+						<li class="clearfix"><span class="float-left">디저트 판매: </span> 
+						<span class="float-right text-spl-color">...</span></li>
 						<li class="clearfix"><span class="float-left">루프탑: </span> <span
 							class="float-right text-spl-color">O</span></li>
 						<li class="clearfix"><span class="float-left">와이파이: </span> <span
@@ -1109,6 +1176,32 @@
 						</span> <span class="float-right text-spl-color">X</span></li>
 						<li class="clearfix"><span class="float-left">흡연 구역: </span>
 							<span class="float-right text-spl-color">X</span></li>
+
+
+						<%
+							}
+						} catch (Exception e) {
+						e.printStackTrace();
+						} finally {
+						try {
+						if (rs != null) {
+							rs.close();
+						}
+						if (stmt != null) {
+							stmt.close();
+						}
+						if (conn != null) {
+							conn.close();
+						}
+						} catch (Exception e) {
+						e.printStackTrace();
+						}
+						}
+					
+						%> 
+
+
+
 
 					</ul>
 					<!-- Order Item List Ends -->
@@ -1177,159 +1270,9 @@
 	<!-- Nested Container Ends -->
 </section>
 <!-- Newsletter Section Ends -->
-<!-- Footer Area Starts -->
-<footer class="main-footer">
-	<!-- Nested Container Starts -->
-	<div class="container">
-		<!-- Starts -->
-		<div class="row">
-			<!-- Logo Starts -->
-			<div
-				class="col-lg-3 col-sm-12 text-xs-center text-sm-center text-lg-left">
-				<img src="images/logo.png" alt="FoodBingo" class="img-fluid">
-			</div>
-			<!-- Logo Ends -->
-			<!-- Page Links Starts -->
-			<div class="col-lg-6 col-sm-12">
-				<ul class="list-unstyled list-inline page-links text-center">
-					<li class="list-inline-item"><a href="index.html">Home</a></li>
-					<li class="list-inline-item"><a href="about.html">About Us</a></li>
-					<li class="list-inline-item"><a href="#">Recipes</a></li>
-					<li class="list-inline-item"><a href="#">Foods</a></li>
-					<li class="list-inline-item"><a href="#">Catering</a></li>
-					<li class="list-inline-item"><a href="contact.html">Contact
-							Us</a></li>
-				</ul>
-			</div>
-			<!-- Page Links Ends -->
-			<!-- Social Media Links Starts -->
-			<div class="col-lg-3 col-sm-12">
-				<ul
-					class="list-unstyled list-inline sm-links text-xs-center text-sm-center text-lg-right">
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-twitter"></i>
-					</a></li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-facebook"></i>
-					</a></li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-linkedin"></i>
-					</a></li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-skype"></i>
-					</a></li>
-					<li class="list-inline-item"><a href="#"
-						class="btn btn-prime animation"> <i class="fa fa-pinterest"></i>
-					</a></li>
-				</ul>
-			</div>
-			<!-- Social Media Links Ends -->
-		</div>
-		<!-- Ends -->
-		<!-- Address Section Starts -->
-		<section
-			class="foot-address text-xs-center text-sm-center text-md-left">
-			<h5 class="mt-4 mb-3">Address :</h5>
-			<!-- Nested Row Starts -->
-			<div class="row">
-				<ul class="list-unstyled col-md-4 col-sm-12">
-					<li>28 Jackson Blvd Ste 1020 Chicago</li>
-					<li>IL 60604-2340</li>
-				</ul>
-				<ul class="list-unstyled col-md-4 col-sm-12">
-					<li>Freephone: +1-800-559-1234</li>
-					<li>Telephone: +1-800-603-9874</li>
-				</ul>
-				<ul class="list-unstyled col-md-4 col-sm-12">
-					<li>FAX: +1-800-999-9898</li>
-					<li>E-mail: <a href="mailto:mail@foodbingodemo.com">mail@foodbingodemo.com</a></li>
-				</ul>
-			</div>
-			<!-- Nested Row Ends -->
-		</section>
-		<!-- Address Section Ends -->
-		<!-- Links Section Starts -->
-		<section
-			class="footer-links-section text-xs-center text-sm-center text-md-left">
-			<!-- Nested Row Starts -->
-			<div class="row">
-				<!-- Link Col #1 Starts -->
-				<div class="col-lg-3 col-md-6 col-sm-12">
-					<h5>Restaurants By Area</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">Restaurants in Madhapur</a></li>
-						<li><a href="#">Restaurants in Sainikpuri</a></li>
-						<li><a href="#">Restaurants in Banjara Hills</a></li>
-						<li><a href="#">Restaurants in Gachibowli</a></li>
-						<li><a href="#">Restaurants in Jubilee Hills</a></li>
-						<li><a href="#">Restaurants in Secunderabad</a></li>
-						<li><a href="#">Restaurants in Hitech City</a></li>
-					</ul>
-				</div>
-				<!-- Link Col #1 Ends -->
-				<!-- Link Col #2 Starts -->
-				<div class="col-lg-3 col-md-6 col-sm-12">
-					<h5>Top Rated Cuisines</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">North Indian</a></li>
-						<li><a href="#">Italian</a></li>
-						<li><a href="#">Bengali</a></li>
-						<li><a href="#">Chinese</a></li>
-						<li><a href="#">Mughlai</a></li>
-						<li><a href="#">Continental</a></li>
-						<li><a href="#">Hyderabadi Biriyani</a></li>
-					</ul>
-				</div>
-				<!-- Link Col #2 Ends -->
-				<!-- Link Col #3 Starts -->
-				<div class="col-lg-3 col-md-6 col-sm-12">
-					<h5>Popular Restaurants</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">Hinglish Cafe</a></li>
-						<li><a href="#">Mama Mia Italia</a></li>
-						<li><a href="#">Khaan Saab</a></li>
-						<li><a href="#">Call Of Benga</a></li>
-						<li><a href="#">China By Marcopolo</a></li>
-						<li><a href="#">Ulavacharu</a></li>
-						<li><a href="#">Reshmi's</a></li>
-					</ul>
-				</div>
-				<!-- Link Col #3 Ends -->
-				<!-- Link Col #4 Starts -->
-				<div class="col-lg-3 col-md-6 col-sm-12">
-					<h5>Popular Cities</h5>
-					<ul class="list-unstyled">
-						<li><a href="#">Pune</a></li>
-						<li><a href="#">Bangalore</a></li>
-						<li><a href="#">Hyderabad</a></li>
-						<li><a href="#">Chennai</a></li>
-						<li><a href="#">Delhi</a></li>
-						<li><a href="#">Mumbai</a></li>
-						<li><a href="#">Gurgaon</a></li>
-					</ul>
-				</div>
-				<!-- Link Col #4 Ends -->
-			</div>
-			<!-- Nested Row Ends -->
-		</section>
-		<!-- Links Section Ends -->
-		<!-- Copyright Starts -->
-		<p class="copyright text-center mb-0">All Rights Reserved &copy;
-			2010 - 2018 Food Bingo Service.</p>
-		<!-- Copyright Ends -->
-	</div>
-	<!-- Nested Container Ends -->
-</footer>
-<!-- Footer Area Ends -->
-<!-- Template JS Files -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/plugins/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
-<script src="js/plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="js/plugins/owl-carousel/owl.carousel.js"></script>
-<script src="js/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
-<script
-	src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
-<script src="js/custom.js"></script>
 
+
+
+
+
+<%@ include file="../include/footer.jspf"%>
