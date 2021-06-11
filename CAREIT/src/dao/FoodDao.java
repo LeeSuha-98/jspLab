@@ -128,4 +128,5 @@ public Reviewinfo selectByReviewinfo(Connection conn, int storeno) throws SQLExc
 		
 	}
 
+
 }

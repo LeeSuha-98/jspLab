@@ -10,16 +10,16 @@ import vo.Detailinfo;
 import vo.Menuinfo;
 import vo.Storeinfo;
 
-public class FoodHandler implements CommandHandler {
+public class ViewLikeHandler implements CommandHandler {
 
-	private static final String FORM_VIEW = "/CARE/view/main/food-details.jsp";
+	private static final String FORM_VIEW = "/CARE/view/main/viewLike.jsp";
 	private FoodService foodService = new FoodService();
 
 	@Override
 	public String process(HttpServletRequest req, HttpServletResponse res) 
 	throws Exception {
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-			return processSubmit(req, res);
+			return processForm(req, res);
 		} else if (req.getMethod().equalsIgnoreCase("POST")) {
 			return processSubmit(req, res);
 		} else {

@@ -219,6 +219,9 @@
 
 
 
+				
+
+
 					<!-- Tab #1 Starts -->
 					<div id="menu" class="tab-pane fade show active">
 
@@ -261,13 +264,38 @@
 										let answer = confirm("즐겨찾기 목록에 담겼습니다. 나의 즐겨찾기 목록을 확인할까요?");
 
 										if (answer == true) {
-											location.href = "viewLike.jsp";
+											location.href = "viewLike.do";
 										} else if (answer != true) {
-											location.href = "food-details.jsp";
+											location.href = "food.do";
 										}
 
 									}
 								</script>
+								<br>
+
+								<%-- 전체 : ${sessionScope.totalCount } <br> 
+								오늘 : ${sessionScope.todayCount } <br> --%>
+								<%
+									int count;
+
+								if (session.getAttribute("count") != null) {
+									count = ((Integer) session.getAttribute("count")).intValue();
+
+								}
+
+								else {
+									count = 0;
+								}
+
+								count++;
+								%>
+
+								- 방문 횟수 :
+								<%=count%>
+
+								<%
+									session.setAttribute("count", new Integer(count));
+								%>
 
 
 
@@ -327,9 +355,10 @@
 										while (rs.next()) {
 									%>
 
-				 					매장 메뉴:
+				 					# 매장 메뉴:
 									<%=rs.getString("MENU")%><br> 
-									-가격: <%=rs.getString("PRICE")%><br> -메뉴사진:<%=rs.getString("MENUPIC")%>
+									&nbsp;&nbsp;&nbsp;-가격: <%=rs.getString("PRICE")%><br> 
+									&nbsp;&nbsp;&nbsp;-메뉴사진:<%=rs.getString("MENUPIC")%>
 									<br> 
 
 
@@ -474,61 +503,9 @@
 									<!-- Takeway Hours Ends -->
 
 
-							<%
-										try {
-										// 데이터베이스를 접속하기 위한 드라이버 SW 로드
-										Class.forName("oracle.jdbc.driver.OracleDriver");
-										// 데이터베이스에 연결하는 작업 수행
-										conn = DriverManager.getConnection(url, uid, pwd);
-										// 쿼리를 생성gkf 객체 생성
-										stmt = conn.createStatement();
-										// 쿼리 생성
-										rs = stmt.executeQuery(sql);
-									%>
-
-
-
-
-									<%
-										while (rs.next()) {
-									%>
-
-									＃ 매장 주소:
-									<%=rs.getString("ADDRESS")%>
-									<br> ＃ 매장 영업시간:
-									<%=rs.getString("TIME")%>
-									<br> ＃ 매장 휴무일:
-									<%=rs.getString("CLOSEDDAYS")%>
-									<br> ＃ 매장 전화번호:
-									<%=rs.getInt("CALLNUMBER")%>
-									<br>
-
-
-
-
-
-
-									<%
-										}
-									} catch (Exception e) {
-									e.printStackTrace();
-									} finally {
-									try {
-									if (rs != null) {
-										rs.close();
-									}
-									if (stmt != null) {
-										stmt.close();
-									}
-									if (conn != null) {
-										conn.close();
-									}
-									} catch (Exception e) {
-									e.printStackTrace();
-									}
-									}
-									%>
-
+							가게주소: ${storeinfo.address }<br> 영업시간: ${storeinfo.time }<br>
+									쉬는 날: ${storeinfo.closeddays }<br> 전화번호:
+									${storeinfo.callnumber }<br>
 
 
 									<!-- Spacer Starts -->
@@ -1141,64 +1118,17 @@
 					<!-- Order Item List Starts -->
 
 
-				<%
-						try {
-						// 데이터베이스를 접속하기 위한 드라이버 SW 로드
-						Class.forName("oracle.jdbc.driver.OracleDriver");
-						// 데이터베이스에 연결하는 작업 수행
-						conn = DriverManager.getConnection(url, uid, pwd);
-						// 쿼리를 생성gkf 객체 생성
-						stmt = conn.createStatement();
-						// 쿼리 생성
-						rs = stmt.executeQuery(sql);
-					%>
-					<%
-						while (rs.next()) {
-					%>
+					총 좌석 수: <span class="float-right text-spl-color">${detailinfo.totalseat }개</span><br>
+						충전기가 있는 좌석 수: <span class="float-right text-spl-color">${detailinfo.socketseat }개</span><br>
+						디저트: <span class="float-right text-spl-color">${detailinfo.dessertsales }</span><br>
+						테라스: <span class="float-right text-spl-color">${detailinfo.terrace }</span><br>
+						루프탑: <span class="float-right text-spl-color">${detailinfo.rooftop }</span><br>
+						와이파이: <span class="float-right text-spl-color">${detailinfo.wifi }</span><br>
+						애견동반: <span class="float-right text-spl-color">${detailinfo.companiondog }</span><br>
+						주차공간: <span class="float-right text-spl-color">${detailinfo.parkingspace }</span><br>
+						노키즈존: <span class="float-right text-spl-color">${detailinfo.nokidszone }</span><br>
+						흡연존: <span class="float-right text-spl-color">${detailinfo.smokingarea }</span><br>
 
-
-					<ul class="list-unstyled order-item-list">
-						<li class="clearfix"><span class="float-left">총 좌석: </span>
-							<span class="float-right text-spl-color">...</span></li>
-						<li class="clearfix"><span class="float-left">콘센트가 있는 테이블:  </span> 
-							<span class="float-right text-spl-color">...</span></li>
-						<li class="clearfix"><span class="float-left">디저트 판매: </span> 
-						<span class="float-right text-spl-color">...</span></li>
-						<li class="clearfix"><span class="float-left">루프탑: </span> <span
-							class="float-right text-spl-color">O</span></li>
-						<li class="clearfix"><span class="float-left">와이파이: </span> <span
-							class="float-right text-spl-color">O</span></li>
-						<li class="clearfix"><span class="float-left">애견 동반: </span>
-							<span class="float-right text-spl-color">X</span></li>
-						<li class="clearfix"><span class="float-left">주차 공간: </span>
-							<span class="float-right text-spl-color">O</span></li>
-						<li class="clearfix"><span class="float-left">어린이 동반:
-						</span> <span class="float-right text-spl-color">X</span></li>
-						<li class="clearfix"><span class="float-left">흡연 구역: </span>
-							<span class="float-right text-spl-color">X</span></li>
-
-
-						<%
-							}
-						} catch (Exception e) {
-						e.printStackTrace();
-						} finally {
-						try {
-						if (rs != null) {
-							rs.close();
-						}
-						if (stmt != null) {
-							stmt.close();
-						}
-						if (conn != null) {
-							conn.close();
-						}
-						} catch (Exception e) {
-						e.printStackTrace();
-						}
-						}
-					
-						%> 
 
 
 
