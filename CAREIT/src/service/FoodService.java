@@ -3,7 +3,7 @@ package service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import dao.FoodDao;
+import dao.DETAILINFODao;
 import jdbc.connection.ConnectionProvider;
 import vo.Detailinfo;
 import vo.Menuinfo;
@@ -12,11 +12,13 @@ import vo.Storeinfo;
 
 public class FoodService {
 
-	private FoodDao foodDao = new FoodDao();
+	private DETAILINFODao foodDao = new DETAILINFODao();
 
 	public Storeinfo storeinfo(int storeno) {
+		System.out.println("storeno= "+storeno);
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			Storeinfo storeinfo = foodDao.selectById(conn, storeno);
+			System.out.println("storeinfo= "+storeinfo.getAddress());
 			if (storeinfo == null) {
 				//throw new LoginFailException();
 			}
@@ -54,6 +56,7 @@ public class FoodService {
 	}
 	
 	
+
 	public Reviewinfo reviewinfo(int storeno) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			Reviewinfo reviewinfo = foodDao.selectByReviewinfo(conn, storeno);
@@ -66,8 +69,9 @@ public class FoodService {
 			throw new RuntimeException(e);
 		}
 	}
+}
 	
 	
 	
-	}
+	
 

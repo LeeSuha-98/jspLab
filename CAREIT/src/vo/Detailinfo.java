@@ -1,4 +1,46 @@
 package vo;
+//´Ù¹Ù²Þ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 public class Detailinfo {
 	private int storeno;

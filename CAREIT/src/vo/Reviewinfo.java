@@ -1,61 +1,115 @@
 package vo;
+//´Ù ¹Ù²Þ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.Date;
 
 public class Reviewinfo {
-	private int storeno;
-	private int userno;
-	private int reviewno;
-	private double avgscore;
-	private String reviewcontents; 
-	private String reviewdate;
+
+	private int reviewNo;
+	private int userNo;
+	private int storeNo;
+	private double avgScore;
+	private String reviewContents;
+	private Date reviewDate;
 	
-	public int getStoreno() {
-		return storeno;
+	public Reviewinfo(int reviewNo, int userNo, int storeNo, double avgScore, String reviewContents, Date reviewDate) {
+
+		this.reviewNo = reviewNo;
+		this.userNo = userNo;
+		this.storeNo = storeNo;
+		this.avgScore = avgScore;
+		this.reviewContents = reviewContents;
+		this.reviewDate = reviewDate;
 	}
-	public void setStoreno(int storeno) {
-		this.storeno = storeno;
+
+	public int getReviewNo() {
+		return reviewNo;
 	}
-	public int getUserno() {
-		return userno;
+
+	public void setReviewNo(int reviewNo) {
+		this.reviewNo = reviewNo;
 	}
-	public void setUserno(int userno) {
-		this.userno = userno;
+
+	public int getUserNo() {
+		return userNo;
 	}
-	public int getReviewno() {
-		return reviewno;
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
-	public void setReviewno(int reviewno) {
-		this.reviewno = reviewno;
+
+	public int getStoreNo() {
+		return storeNo;
 	}
-	public double isAvgscore() {
-		return avgscore;
+
+	public void setStoreNo(int storeNo) {
+		this.storeNo = storeNo;
 	}
-	public void setAvgscore(double avgscore) {
-		this.avgscore = avgscore;
+
+	public double getAvgScore() {
+		return avgScore;
 	}
-	public String getReviewcontents() {
-		return reviewcontents;
+
+	public void setAvgScore(double avgScore) {
+		this.avgScore = avgScore;
 	}
-	public void setReviewcontents(String reviewcontents) {
-		this.reviewcontents = reviewcontents;
+
+	public String getReviewContents() {
+		return reviewContents;
 	}
-	public String getReviewdate() {
-		return reviewdate;
+
+	public void setReviewContents(String reviewContents) {
+		this.reviewContents = reviewContents;
 	}
-	public void setReviewdate(String reviewdate) {
-		this.reviewdate = reviewdate;
+
+	public Date getReviewDate() {
+		return reviewDate;
 	}
-	public Reviewinfo(int storeno, int userno, int reviewno, double avgscore, String reviewcontents,
-			String reviewdate) {
-		super();
-		this.storeno = storeno;
-		this.userno = userno;
-		this.reviewno = reviewno;
-		this.avgscore = avgscore;
-		this.reviewcontents = reviewcontents;
-		this.reviewdate = reviewdate;
+
+	public void setReviewDate(Date reviewDate) {
+		this.reviewDate = reviewDate;
 	}
-	
-	
-	
 	
 }
+	
+	

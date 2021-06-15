@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/guestbook/service/DeleteMessageService.java=UTF-8
+encoding//src/guestbook/service/GetMessageListViewService.java=UTF-8
+encoding//src/guestbook/service/WriteMessageService.java=UTF-8
 encoding//src/mvc/controller/ControllerUsingURI.java=UTF-8

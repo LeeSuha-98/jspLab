@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../include/header.jspf"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -10,6 +9,22 @@
 <%@ page import="java.sql.ResultSet"%>
 <%@ page import="java.sql.*"%>
 
+
+<%@ page import="guestbook.model.Message"
+	import="guestbook.model.MessageListView"
+	import="guestbook.service.GetMessageListViewService"%>
+
+<%@ include file="../include/header.jspf"%>
+
+<%--  <%
+ 	GetMessageListViewService viewService = GetMessageListViewService.getInstance();
+	String pageStr = request.getParameter("page");
+	int pageNum = pageStr == null ? 1 : Integer.parseInt(pageStr);
+    MessageListView view = viewService.getMessageListView(pageNum);
+%>   --%>
+
+<%-- <c:set var="view" value="<%= view %>" /> 
+ --%>
 
 <meta charset="utf-8">
 <meta name="viewport"
@@ -325,15 +340,14 @@
 									<p class="text-center"></p>
 									<!-- Order Menu List #1 Starts -->
 
-									1.메뉴 이름: ${menuinfo.menu }
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -가격:
-									${menuinfo.price } <br>
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									-사진: ${menuinfo.menupic }<br> <br> 2.메뉴 이름:
-									${menuinfo.menu }
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -가격:
-									${menuinfo.price } <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									-사진: ${menuinfo.menupic }<br>
+
+
+
+									1.메뉴 이름: ${menuinfo.menu } &nbsp;&nbsp;&nbsp; -가격:
+									${menuinfo.price } <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									-사진: ${menuinfo.menuPic }<br> <br>
 
 
 									<div class="spacer"></div>
@@ -399,7 +413,6 @@
 						</div>
 						<!-- Tab #1 Nested Row Ends -->
 
-
 					</div>
 					<!-- Tab #1 Ends -->
 
@@ -436,20 +449,13 @@
 									<div class="spacer big"></div>
 									<!-- Spacer Ends -->
 
-									<!-- Delivery Hours Starts -->
-
-
-									<!-- Delivery Hours Ends -->
-
-									<!-- Takeway Hours Starts -->
-
-									<!-- Takeway Hours Ends -->
 
 
 
 									가게주소: ${storeinfo.address }<br> 영업시간: ${storeinfo.time }<br>
 									쉬는 날: ${storeinfo.closeddays }<br> 전화번호:
 									${storeinfo.callnumber }<br>
+
 
 
 
@@ -595,41 +601,23 @@
 							<div class="col-md-8 col-sm-12">
 								<!-- Reviews Tab Pane Starts -->
 								<div class="reviews-tab-pane">
-								
+
 									<!-- Reviews Form Box Starts -->
 									<div class="reviews-form-box">
 										<h6>리뷰쓰기</h6>
-										
-										
-										
-	<section class="content">
-
-		<!-- Default box -->
-	
-			<div class="box-body">
 
 
 
+										<section class="content">
 
-				<form action="write.do" method="post">
-					
-					<p>
-						
-						<textarea name="content" rows="10" cols="60" placeholder="리뷰를 작성하세요">${param.title}</textarea>
-					</p>
-					</form>
-										<!-- <form>
-											<textarea class="form-control" rows="4"
-												placeholder="Message should be atleast 130 charecters"></textarea>
-											<div class="clearfix">
-												<ul class="list-unstyled list-inline rating-star float-left">
-													<li class="list-inline-item"><i class="fa fa-star"></i></li>
-													<li class="list-inline-item"><i class="fa fa-star"></i></li>
-													<li class="list-inline-item"><i class="fa fa-star"></i></li>
-													<li class="list-inline-item"><i class="fa fa-star"></i></li>
-													<li class="list-inline-item"><i class="fa fa-star"></i></li>
-												</ul> -->
+											<!-- Default box -->
 
+											<div class="box-body">
+
+
+
+
+												<form action="write.do" method="post"></form>
 												<%
 													// 현재 로그인된 아이디가 없다면 (= session에 저장된 id가 없다면)
 												if (session.getAttribute("authUser") == null) {
@@ -643,33 +631,200 @@
 												// 현재 로그인된 아이디가 있다면 (= session에 저장된 id가 있다면)
 												else {
 												%>
-												<tr>
+
+												<div class="box-body">
+													<form action="reviewInfo.do" method="post" id="writeForm">
+														<!-- // form에 ID 지정 -->
+														<p>
+															<textarea name="reviewcontents" cols="60" rows="10"
+																placeholder="리뷰를 작성하세요"></textarea>
+														</p>
+														<p>
+															<input type="submit" value="리뷰쓰기"
+																class="btn btn-black animation text-uppercase float-right" />
+														</p>
+													</form>
+
+													<div id="list">
+														<%--  // <c:if> 태그로 생성되는 글목록을 감싸는 wrapper 요소 --%>
+														<c:if test="${view.isEmpty()}">
+															<p>등록된 메시지가 없습니다.</p>
+														</c:if>
+
+														<!-- <tr>
 												
 													<td colspan=2 align=center><input type="submit"
 														value="리뷰등록"
 														class="btn btn-black animation text-uppercase float-right"></td>
-												</tr>
-												<!-- <a href="#"
+												</tr> -->
+														<!-- <a href="#"
 													class="btn btn-black animation text-uppercase float-right">리뷰쓰기</a> -->
-												<%
-													}
-												%>
-												
-												<form action="file.do" method="post"
-													enctype="multipart/form-data">
-													<tr>
-														<td></td>
-														<td><input type="file" name="fileName1"></td>
-													</tr>
-													<br>
-												</form>
+														<%
+															}
+														%>
 
-</section>
-</div>
-</div>
-</div>
+														<form action="file.do" method="post"
+															enctype="multipart/form-data">
+															<tr>
+																<td></td>
+																<td><input type="file" name="fileName1"></td>
+															</tr>
+															<br>
+														</form>
+										</section>
 
 
+									</div>
+									<!-- Content Wrapper. Contains page content -->
+									<div class="content-wrapper">
+										<!-- Content Header (Page header) -->
+										<section class="content-header"></section>
+
+										<!-- Main content -->
+										<section class="content">
+
+											<!-- Default box -->
+											<div class="box">
+												<div class="box-header with-border">
+
+
+													<div class="box-tools pull-right"></div>
+												</div>
+
+												</table>
+												<div class="review-list">
+													<c:if test="${!view.isEmpty()}">
+														<table border="1">
+															<c:forEach var="message" items="${view.messageList}">
+																<div class="clearfix">
+																	<div class="float-left">
+																		<h6>
+																			<i class="fa fa-calendar"></i> ${message.reviewdate}
+																		</h6>
+																		<h6>By ${message.userno}</h6>
+																		<ul class="list-unstyled list-inline rating-star-list">
+																			<li class="list-inline-item"><i
+																				class="fa fa-star"></i></li>
+																			<li class="list-inline-item"><i
+																				class="fa fa-star"></i></li>
+																			<li class="list-inline-item"><i
+																				class="fa fa-star"></i></li>
+																			<li class="list-inline-item"><i
+																				class="fa fa-star-o"></i></li>
+																			<li class="list-inline-item"><i
+																				class="fa fa-star-o"></i></li>
+																		</ul>
+
+																	</div>
+																	<img src="images/review-thumb-img1.png" alt="Image"
+																		class="img-fluid float-right">
+																</div>
+																<div class="review-list-content">
+																	<p>리뷰내용: ${message.reviewcontents}</p>
+																	<p>평점: ${message.avgscore}</p>
+																	<p>메시지 번호: ${message.reviewno}</p>
+																	<ul
+																		class="list-unstyled list-inline grid-box-ratings float-lg-right text-lg-right">
+																		<li class="list-inline-item star-rating"><i
+																			value="[삭제하기]"class="fa fa-star" onclick="wishList3();"> </i></li>
+
+
+																	</ul>
+																</div>
+																</div>
+															</c:forEach>
+
+															<%-- <tr>
+																<td>
+
+																	<p>
+																		<a
+																			href="confirmDeletion.jsp?messageId=${message.reviewno}">[삭제하기]
+																		
+																	</p>
+																</td>
+															</tr> --%>
+															<script>
+																function wishList3() {
+
+																	/*  let answer;
+																	    let YesUrl="/viewLike.jsp"; 
+																	   
+																	    let NoUrl="./food-details.jsp"; */
+
+																	let answer = confirm("정말 리뷰를 삭제하시겠습니까?");
+
+																	if (answer == true) {
+																		printf("삭제 성공!");
+																		
+																	} else if (answer != true) {
+																		location.href = "food.do";
+																	}
+
+																}
+															</script>
+															<div>
+																<c:forEach var="pageNum" begin="1"
+																	end="${view.totalPages}">
+																	<span><a href="messageList.jsp?page=${pageNum}">[${pageNum}]</a></span>
+																</c:forEach>
+															</div>
+															</c:if>
+															</div>
+															</div>
+															<!-- /.box-body -->
+
+															<!-- /.box-footer-->
+															</div>
+															<!-- /.box -->
+
+															</section>
+															<!-- /.content -->
+															</div>
+
+
+
+
+															<script>
+																// 제이쿼리로 form submit 이벤트 처리
+																$(function() {
+																	$(
+																			"#writeForm")
+																			.submit(
+																					function() {
+																						var formData = { // Plain Object 변수에 form의 data 저장
+																							reviewcontents : this.reviewcontents.value
+																						};
+
+																						$
+																								.ajax({
+																									url : "/CAREIT/CARE/view/guestbook/writeMessage.jsp",
+																									method : "POST",
+																									data : formData,
+																									success : function() { // 요청 성공 시 (HTTP 200 OK)
+																										$(
+																												"#writeForm [name=reviewcontents]")
+																												.val(
+																														""); // 입력했던 정보 비우기
+																										$("#list")
+																												.load(window.location.href + " #list"); // 글목록만 새로고침
+																									}
+																								});
+
+																						event
+																								.preventDefault(); // submit 시 페이지 이동하지 않게
+																					});
+																});
+															</script>
+
+
+														</table>
+												</div>
+											</div>
+										</section>
+									</div>
+								</div>
+							</div>
 
 
 
@@ -684,19 +839,16 @@
 
 
 
+							<!-- Reviews Form Box Ends -->
+							<!-- Reviews List Starts -->
+							<!-- Default box -->
+							<div class="box">
+								<div class="box-header with-border">
 
 
-
-									<!-- Reviews Form Box Ends -->
-									<!-- Reviews List Starts -->
-									<!-- Default box -->
-									<div class="box">
-										<div class="box-header with-border">
-
-
-											<div class="box-tools pull-right"></div>
-										</div>
-										<div class="box-body">
+									<div class="box-tools pull-right"></div>
+								</div>
+								<div class="box-body">
 
 
 
@@ -704,9 +856,9 @@
 
 
 
-											<div class="reviews-box">
+									<div class="reviews-box">
 
-												<style type="text/css">
+										<style type="text/css">
 #wrap {
 	width: 800px;
 	margin: 0 auto 0 auto;
@@ -731,388 +883,387 @@
 }
 </style>
 
-												<script type="text/javascript">
-													function changeView(value) {
-														if (value == 0)
-															location.href = 'BoardListAction.bo?page=${pageNum}';
-														else if (value == 1)
-															location.href = 'BoardReplyFormAction.bo?num=${board.board_num}&page=${pageNum}';
-													}
+										<script type="text/javascript">
+											function changeView(value) {
+												if (value == 0)
+													location.href = 'BoardListAction.bo?page=${pageNum}';
+												else if (value == 1)
+													location.href = 'BoardReplyFormAction.bo?num=${board.board_num}&page=${pageNum}';
+											}
 
-													function doAction(value) {
-														if (value == 0) // 수정
-															location.href = "BoardUpdateFormAction.bo?num=${board.board_num}&page=${pageNum}";
-														else if (value == 1) // 삭제
-															location.href = "BoardDeleteAction.bo?num=${board.board_num}";
-													}
+											function doAction(value) {
+												if (value == 0) // 수정
+													location.href = "BoardUpdateFormAction.bo?num=${board.board_num}&page=${pageNum}";
+												else if (value == 1) // 삭제
+													location.href = "BoardDeleteAction.bo?num=${board.board_num}";
+											}
 
-													var httpRequest = null;
+											var httpRequest = null;
 
-													// httpRequest 객체 생성
-													function getXMLHttpRequest() {
-														var httpRequest = null;
+											// httpRequest 객체 생성
+											function getXMLHttpRequest() {
+												var httpRequest = null;
 
-														if (window.ActiveXObject) {
-															try {
-																httpRequest = new ActiveXObject(
-																		"Msxml2.XMLHTTP");
-															} catch (e) {
-																try {
-																	httpRequest = new ActiveXObject(
-																			"Microsoft.XMLHTTP");
-																} catch (e2) {
-																	httpRequest = null;
-																}
-															}
-														} else if (window.XMLHttpRequest) {
-															httpRequest = new window.XMLHttpRequest();
-														}
-														return httpRequest;
-													}
-
-													// 댓글 등록
-													function writeCmt() {
-														var form = document
-																.getElementById("writeCommentForm");
-
-														var board = form.reviewinfo.value
-														var id = form.userno.value
-														var content = form.reviewcontents.value;
-
-														if (!content) {
-															alert("내용을 입력하세요.");
-															return false;
-														} else {
-															var param = "reviewinfo="
-																	+ board
-																	+ "&userno="
-																	+ id
-																	+ "&reviewcontents="
-																	+ content;
-
-															httpRequest = getXMLHttpRequest();
-															httpRequest.onreadystatechange = checkFunc;
-															httpRequest
-																	.open(
-																			"POST",
-																			"CommentWriteAction.co",
-																			true);
-															httpRequest
-																	.setRequestHeader(
-																			'Content-Type',
-																			'application/x-www-form-urlencoded;charset=EUC-KR');
-															httpRequest
-																	.send(param);
+												if (window.ActiveXObject) {
+													try {
+														httpRequest = new ActiveXObject(
+																"Msxml2.XMLHTTP");
+													} catch (e) {
+														try {
+															httpRequest = new ActiveXObject(
+																	"Microsoft.XMLHTTP");
+														} catch (e2) {
+															httpRequest = null;
 														}
 													}
+												} else if (window.XMLHttpRequest) {
+													httpRequest = new window.XMLHttpRequest();
+												}
+												return httpRequest;
+											}
 
-													function checkFunc() {
-														if (httpRequest.readyState == 4) {
-															// 결과값을 가져온다.
-															var resultText = httpRequest.responseText;
-															if (resultText == 1) {
-																document.location
-																		.reload(); // 상세보기 창 새로고침
-															}
-														}
+											// 댓글 등록
+											function writeCmt() {
+												var form = document
+														.getElementById("writeCommentForm");
+
+												var board = form.reviewinfo.value
+												var id = form.userno.value
+												var content = form.reviewcontents.value;
+
+												if (!content) {
+													alert("내용을 입력하세요.");
+													return false;
+												} else {
+													var param = "reviewinfo="
+															+ board
+															+ "&userno="
+															+ id
+															+ "&reviewcontents="
+															+ content;
+
+													httpRequest = getXMLHttpRequest();
+													httpRequest.onreadystatechange = checkFunc;
+													httpRequest
+															.open(
+																	"POST",
+																	"CommentWriteAction.co",
+																	true);
+													httpRequest
+															.setRequestHeader(
+																	'Content-Type',
+																	'application/x-www-form-urlencoded;charset=EUC-KR');
+													httpRequest.send(param);
+												}
+											}
+
+											function checkFunc() {
+												if (httpRequest.readyState == 4) {
+													// 결과값을 가져온다.
+													var resultText = httpRequest.responseText;
+													if (resultText == 1) {
+														document.location
+																.reload(); // 상세보기 창 새로고침
 													}
-												</script>
+												}
+											}
+										</script>
 
 
-												<!-- Review #1 Starts -->
-												<div class="review-list">
-													<div class="clearfix">
-														<div class="float-left"></div>
+										<!-- Review #1 Starts -->
+										<div class="review-list">
+											<div class="clearfix">
+												<div class="float-left"></div>
 
 
 
-													</div>
-													<div class="review-list-content"></div>
-												</div>
-												<!-- Review #1 Ends -->
-												<!-- Review #2 Starts -->
-												<div class="review-list">
-													<div class="clearfix">
-														<div class="float-left"></div>
-
-													</div>
-													<div class="review-list-content"></div>
-												</div>
-												<!-- Review #2 Ends -->
-												<!-- Review #3 Starts -->
-												<div class="review-list">
-													<div class="clearfix">
-														<div class="float-left"></div>
-
-													</div>
-													<div class="review-list-content"></div>
-												</div>
-												<!-- Review #3 Ends -->
-												<!-- Review #4 Starts -->
-												<div class="review-list">
-													<div class="clearfix">
-														<div class="float-left"></div>
-
-													</div>
-													<div class="review-list-content"></div>
-												</div>
-												<!-- Review #4 Ends -->
 											</div>
-											<!-- Reviews List Ends -->
-											<!-- Spacer Starts -->
-											<div class="spacer-1 condensed"></div>
-											<!-- Spacer Ends -->
-											<!-- Banners Starts -->
-											<div class="row text-center">
-												<div class="col-6"></div>
-												<div class="col-6"></div>
-											</div>
-											<!-- Banners Ends -->
+											<div class="review-list-content"></div>
 										</div>
-										<!-- Reviews Tab Pane Ends -->
+										<!-- Review #1 Ends -->
+										<!-- Review #2 Starts -->
+										<div class="review-list">
+											<div class="clearfix">
+												<div class="float-left"></div>
+
+											</div>
+											<div class="review-list-content"></div>
+										</div>
+										<!-- Review #2 Ends -->
+										<!-- Review #3 Starts -->
+										<div class="review-list">
+											<div class="clearfix">
+												<div class="float-left"></div>
+
+											</div>
+											<div class="review-list-content"></div>
+										</div>
+										<!-- Review #3 Ends -->
+										<!-- Review #4 Starts -->
+										<div class="review-list">
+											<div class="clearfix">
+												<div class="float-left"></div>
+
+											</div>
+											<div class="review-list-content"></div>
+										</div>
+										<!-- Review #4 Ends -->
 									</div>
-									<!-- Right Column Ends -->
+									<!-- Reviews List Ends -->
+									<!-- Spacer Starts -->
+									<div class="spacer-1 condensed"></div>
+									<!-- Spacer Ends -->
+									<!-- Banners Starts -->
+									<div class="row text-center">
+										<div class="col-6"></div>
+										<div class="col-6"></div>
+									</div>
+									<!-- Banners Ends -->
 								</div>
-								<!-- Tab #4 Nested Row Ends -->
+								<!-- Reviews Tab Pane Ends -->
 							</div>
-							<!-- Tab #4 Ends -->
-							<!-- Tab #5 Starts -->
-							<div id="reachus" class="tab-pane fade">
-								<!-- Tab #5 Nested Row Starts -->
-								<div class="row">
-									<!-- Left Column Starts -->
-									<div class="col-md-4 col-sm-12">
-
-
-
-
-										<div class="side-block-1">
-											<h6>Delivery Menu</h6>
-											<ul class="list-unstyled list-style-2">
-												<li>Soups</li>
-												<li>Southern Grills: Veg.</li>
-												<li>Southern Grills: Non-Veg.</li>
-												<li>Starters</li>
-												<li>Chinese Starters</li>
-												<li>North Indian Main Course</li>
-												<li>Traditional Telugu Maincourse</li>
-												<li>Indian Breads</li>
-												<li>Rice, Biryani &amp; Pulao</li>
-												<li>Accompaniments</li>
-												<li>Desserts &amp; Beverages</li>
-											</ul>
-										</div>
-									</div>
-									<!-- Left Column Ends -->
-									<!-- Right Column Starts -->
-									<div class="col-md-8 col-sm-12">
-										<!-- Reach Us Tab Pane Starts -->
-										<div class="reachus-tab-pane">
-											<!-- Map Starts -->
-											<div class="map"></div>
-											<!-- Map Ends -->
-											<!-- Address Block Starts -->
-											<div class="address-block">
-												<h6>
-													<i class="fa fa-tag"></i> Address
-												</h6>
-												<ul class="list-unstyled">
-													<li># 201, Plot No. 39, Abids Road, Near Chirag Ali
-														Lane,</li>
-													<li>Hyderabad - 500 001 , Telangana, India.</li>
-												</ul>
-												<h6>
-													<i class="fa fa-phone"></i> Phone Numbers
-												</h6>
-												<ul class="list-unstyled">
-													<li>040-80180280, 040-22113366</li>
-												</ul>
-												<h6>
-													<i class="fa fa-mobile"></i> Can be in touch with Watsapp
-												</h6>
-												<ul class="list-unstyled">
-													<li>+21 998 909 9999</li>
-												</ul>
-											</div>
-											<!-- Address Block Ends -->
-											<!-- Reach Form Starts -->
-											<div class="reachus-form">
-												<h6>Drop us a mail for Table Reservation</h6>
-												<form action="#">
-													<div class="form-group">
-														<label class="sr-only" for="reachus-name">Name</label> <input
-															type="text" class="form-control rounded-0"
-															id="reachus-name" placeholder="Name">
-													</div>
-													<div class="form-group">
-														<label class="sr-only" for="reachus-email">E-mail</label>
-														<input type="email" class="form-control rounded-0"
-															id="reachus-email" placeholder="e-mail">
-													</div>
-													<div class="form-group">
-														<label class="sr-only" for="reachus-mobileno">Mobile
-															No</label> <input type="text" class="form-control rounded-0"
-															id="reachus-mobileno" placeholder="Mobile No">
-													</div>
-													<div class="row">
-														<div class="col-6">
-															<div class="form-group">
-																<div class="input-group">
-																	<label class="sr-only" for="reachus-date">Date</label>
-																	<input type="text"
-																		class="form-control rounded-0 datepickerInput"
-																		id="reachus-date" placeholder="Date"> <span
-																		class="input-group-append input-group-text rounded-0">
-																		<span class="fa fa-calendar"></span>
-																	</span>
-																</div>
-															</div>
-														</div>
-														<div class="col-6">
-															<div class="form-group">
-																<label class="sr-only" for="reachus-persons">No.of
-																	Persons</label> <select class="form-control rounded-0">
-																	<option>No.of Persons</option>
-																	<option>1</option>
-																	<option>2</option>
-																	<option>3</option>
-																	<option>4</option>
-																	<option>5</option>
-																</select>
-															</div>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="sr-only" for="reachus-info">Your
-															Information</label>
-														<textarea class="form-control rounded-0" id="reachus-info"
-															placeholder="Your Information" rows="5"></textarea>
-													</div>
-													<div class="clearfix">
-														<button type="submit"
-															class="btn btn-prime text-uppercase animation pull-right">Submit</button>
-													</div>
-												</form>
-											</div>
-											<!-- Reach Form Ends -->
-											<!-- Banners Starts -->
-											<div class="row text-center"></div>
-											<!-- Banners Ends -->
-										</div>
-										<!-- Reach Us Tab Pane Ends -->
-									</div>
-									<!-- Right Column Ends -->
-								</div>
-								<!-- Tab #5 Nested Row Ends -->
-							</div>
-							<!-- Tab #5 Ends -->
+							<!-- Right Column Ends -->
 						</div>
-						<!-- Menu Tabs Content Ends -->
+						<!-- Tab #4 Nested Row Ends -->
 					</div>
-					<!-- Menu Tabs Ends -->
+					<!-- Tab #4 Ends -->
+					<!-- Tab #5 Starts -->
+					<div id="reachus" class="tab-pane fade">
+						<!-- Tab #5 Nested Row Starts -->
+						<div class="row">
+							<!-- Left Column Starts -->
+							<div class="col-md-4 col-sm-12">
+
+
+
+
+								<div class="side-block-1">
+									<h6>Delivery Menu</h6>
+									<ul class="list-unstyled list-style-2">
+										<li>Soups</li>
+										<li>Southern Grills: Veg.</li>
+										<li>Southern Grills: Non-Veg.</li>
+										<li>Starters</li>
+										<li>Chinese Starters</li>
+										<li>North Indian Main Course</li>
+										<li>Traditional Telugu Maincourse</li>
+										<li>Indian Breads</li>
+										<li>Rice, Biryani &amp; Pulao</li>
+										<li>Accompaniments</li>
+										<li>Desserts &amp; Beverages</li>
+									</ul>
+								</div>
+							</div>
+							<!-- Left Column Ends -->
+							<!-- Right Column Starts -->
+							<div class="col-md-8 col-sm-12">
+								<!-- Reach Us Tab Pane Starts -->
+								<div class="reachus-tab-pane">
+									<!-- Map Starts -->
+									<div class="map"></div>
+									<!-- Map Ends -->
+									<!-- Address Block Starts -->
+									<div class="address-block">
+										<h6>
+											<i class="fa fa-tag"></i> Address
+										</h6>
+										<ul class="list-unstyled">
+											<li># 201, Plot No. 39, Abids Road, Near Chirag Ali
+												Lane,</li>
+											<li>Hyderabad - 500 001 , Telangana, India.</li>
+										</ul>
+										<h6>
+											<i class="fa fa-phone"></i> Phone Numbers
+										</h6>
+										<ul class="list-unstyled">
+											<li>040-80180280, 040-22113366</li>
+										</ul>
+										<h6>
+											<i class="fa fa-mobile"></i> Can be in touch with Watsapp
+										</h6>
+										<ul class="list-unstyled">
+											<li>+21 998 909 9999</li>
+										</ul>
+									</div>
+									<!-- Address Block Ends -->
+									<!-- Reach Form Starts -->
+									<div class="reachus-form">
+										<h6>Drop us a mail for Table Reservation</h6>
+										<form action="#">
+											<div class="form-group">
+												<label class="sr-only" for="reachus-name">Name</label> <input
+													type="text" class="form-control rounded-0"
+													id="reachus-name" placeholder="Name">
+											</div>
+											<div class="form-group">
+												<label class="sr-only" for="reachus-email">E-mail</label> <input
+													type="email" class="form-control rounded-0"
+													id="reachus-email" placeholder="e-mail">
+											</div>
+											<div class="form-group">
+												<label class="sr-only" for="reachus-mobileno">Mobile
+													No</label> <input type="text" class="form-control rounded-0"
+													id="reachus-mobileno" placeholder="Mobile No">
+											</div>
+											<div class="row">
+												<div class="col-6">
+													<div class="form-group">
+														<div class="input-group">
+															<label class="sr-only" for="reachus-date">Date</label> <input
+																type="text"
+																class="form-control rounded-0 datepickerInput"
+																id="reachus-date" placeholder="Date"> <span
+																class="input-group-append input-group-text rounded-0">
+																<span class="fa fa-calendar"></span>
+															</span>
+														</div>
+													</div>
+												</div>
+												<div class="col-6">
+													<div class="form-group">
+														<label class="sr-only" for="reachus-persons">No.of
+															Persons</label> <select class="form-control rounded-0">
+															<option>No.of Persons</option>
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="sr-only" for="reachus-info">Your
+													Information</label>
+												<textarea class="form-control rounded-0" id="reachus-info"
+													placeholder="Your Information" rows="5"></textarea>
+											</div>
+											<div class="clearfix">
+												<button type="submit"
+													class="btn btn-prime text-uppercase animation pull-right">Submit</button>
+											</div>
+										</form>
+									</div>
+									<!-- Reach Form Ends -->
+									<!-- Banners Starts -->
+									<div class="row text-center"></div>
+									<!-- Banners Ends -->
+								</div>
+								<!-- Reach Us Tab Pane Ends -->
+							</div>
+							<!-- Right Column Ends -->
+						</div>
+						<!-- Tab #5 Nested Row Ends -->
+					</div>
+					<!-- Tab #5 Ends -->
 				</div>
-				<!-- Mainarea Ends -->
-				<!-- Sidearea Starts -->
+				<!-- Menu Tabs Content Ends -->
+			</div>
+			<!-- Menu Tabs Ends -->
+		</div>
+		<!-- Mainarea Ends -->
+		<!-- Sidearea Starts -->
+		<div class="col-md-3 col-sm-12">
+			<!-- Spacer Starts -->
+			<div class="spacer-1 medium d-xs-block d-sm-block d-md-none"></div>
+			<!-- Spacer Ends -->
+			<!-- Your Order Starts -->
+			<div class="side-block-order border-radius-4">
+				<!-- Heading Starts -->
+				<h6 class="text-center">가게 편의정보</h6>
+				<!-- Heading Ends -->
+				<!-- Order Content Starts -->
+
+
+				총 좌석 수: <span class="float-right text-spl-color">${detailinfo.totalseat }개</span><br>
+				충전기가 있는 좌석 수: <span class="float-right text-spl-color">${detailinfo.socketseat }개</span><br>
+				디저트: <span class="float-right text-spl-color">${detailinfo.dessertsales }</span><br>
+				테라스: <span class="float-right text-spl-color">${detailinfo.terrace }</span><br>
+				루프탑: <span class="float-right text-spl-color">${detailinfo.rooftop }</span><br>
+				와이파이: <span class="float-right text-spl-color">${detailinfo.wifi }</span><br>
+				애견동반: <span class="float-right text-spl-color">${detailinfo.companiondog }</span><br>
+				주차공간: <span class="float-right text-spl-color">${detailinfo.parkingspace }</span><br>
+				노키즈존: <span class="float-right text-spl-color">${detailinfo.nokidszone }</span><br>
+				흡연존: <span class="float-right text-spl-color">${detailinfo.smokingarea }</span><br>
+
+
+
+				<div class="side-block-order-content">
+					<!-- Order Item List Starts -->
+
+
+
+					</ul>
+					<!-- Order Item List Ends -->
+					<!-- Order Item Total Starts -->
+
+					<!-- Order Item Total Ends -->
+
+				</div>
+				<!-- Order Content Ends -->
+			</div>
+			<!-- Your Order Ends -->
+			<!-- Sponsors Banners Starts -->
+
+
+			<!-- Sponsors Banners Ends -->
+		</div>
+		<!-- Sidearea Ends -->
+	</div>
+	<!-- Nested Row Ends -->
+</div>
+<!-- Main Container Ends -->
+<!-- Newsletter Section Starts -->
+<section class="footer-top">
+	<!-- Nested Container Starts -->
+	<div class="container">
+		<h3 class="text-center text-weight-bold">Subscribe to our
+			Newsletter:</h3>
+		<ul class="list-unstyled list-inline text-center">
+			<li class="list-inline-item"><i class="fa fa-check-circle"></i>
+				Receive deals from all our top restaurants via e-mail</li>
+			<li class="list-inline-item"><i class="fa fa-check-circle"></i>
+				Don't miss out on our great offers</li>
+		</ul>
+		<!-- Newsletter Form Starts -->
+		<form class="newsletter-form">
+			<!-- Nested Row Starts -->
+			<div class="row">
+				<div class="col-md-4 col-sm-12">
+					<label class="sr-only" for="newsletter-city">Please Select
+						Your City</label> <input type="text" class="form-control"
+						id="newsletter-city" placeholder="Please Select Your City">
+				</div>
+				<div class="col-md-5 col-sm-12">
+					<label class="sr-only" for="newsletter-email">Email</label> <input
+						type="text" class="form-control" id="newsletter-email"
+						placeholder="Enter Your E-mail Id">
+				</div>
 				<div class="col-md-3 col-sm-12">
-					<!-- Spacer Starts -->
-					<div class="spacer-1 medium d-xs-block d-sm-block d-md-none"></div>
-					<!-- Spacer Ends -->
-					<!-- Your Order Starts -->
-					<div class="side-block-order border-radius-4">
-						<!-- Heading Starts -->
-						<h6 class="text-center">가게 편의정보</h6>
-						<!-- Heading Ends -->
-						<!-- Order Content Starts -->
-
-
-						총 좌석 수: <span class="float-right text-spl-color">${detailinfo.totalseat }개</span><br>
-						충전기가 있는 좌석 수: <span class="float-right text-spl-color">${detailinfo.socketseat }개</span><br>
-						디저트: <span class="float-right text-spl-color">${detailinfo.dessertsales }</span><br>
-						테라스: <span class="float-right text-spl-color">${detailinfo.terrace }</span><br>
-						루프탑: <span class="float-right text-spl-color">${detailinfo.rooftop }</span><br>
-						와이파이: <span class="float-right text-spl-color">${detailinfo.wifi }</span><br>
-						애견동반: <span class="float-right text-spl-color">${detailinfo.companiondog }</span><br>
-						주차공간: <span class="float-right text-spl-color">${detailinfo.parkingspace }</span><br>
-						노키즈존: <span class="float-right text-spl-color">${detailinfo.nokidszone }</span><br>
-						흡연존: <span class="float-right text-spl-color">${detailinfo.smokingarea }</span><br>
-
-
-
-						<div class="side-block-order-content">
-							<!-- Order Item List Starts -->
-
-
-
-							</ul>
-							<!-- Order Item List Ends -->
-							<!-- Order Item Total Starts -->
-
-							<!-- Order Item Total Ends -->
-
-						</div>
-						<!-- Order Content Ends -->
-					</div>
-					<!-- Your Order Ends -->
-					<!-- Sponsors Banners Starts -->
-
-
-					<!-- Sponsors Banners Ends -->
+					<button type="submit"
+						class="btn btn-prime btn-block text-uppercase text-weight-bold animation">Sign
+						Up Now</button>
 				</div>
-				<!-- Sidearea Ends -->
+				<div class="col-sm-12 text-center">
+					<h6 class="text-weight-bold">
+						<label> <input type="checkbox"> <span>I
+								have read &amp; accepted the terms and conditions and privacy
+								policy</span>
+						</label>
+					</h6>
+				</div>
 			</div>
 			<!-- Nested Row Ends -->
-		</div>
-		<!-- Main Container Ends -->
-		<!-- Newsletter Section Starts -->
-		<section class="footer-top">
-			<!-- Nested Container Starts -->
-			<div class="container">
-				<h3 class="text-center text-weight-bold">Subscribe to our
-					Newsletter:</h3>
-				<ul class="list-unstyled list-inline text-center">
-					<li class="list-inline-item"><i class="fa fa-check-circle"></i>
-						Receive deals from all our top restaurants via e-mail</li>
-					<li class="list-inline-item"><i class="fa fa-check-circle"></i>
-						Don't miss out on our great offers</li>
-				</ul>
-				<!-- Newsletter Form Starts -->
-				<form class="newsletter-form">
-					<!-- Nested Row Starts -->
-					<div class="row">
-						<div class="col-md-4 col-sm-12">
-							<label class="sr-only" for="newsletter-city">Please
-								Select Your City</label> <input type="text" class="form-control"
-								id="newsletter-city" placeholder="Please Select Your City">
-						</div>
-						<div class="col-md-5 col-sm-12">
-							<label class="sr-only" for="newsletter-email">Email</label> <input
-								type="text" class="form-control" id="newsletter-email"
-								placeholder="Enter Your E-mail Id">
-						</div>
-						<div class="col-md-3 col-sm-12">
-							<button type="submit"
-								class="btn btn-prime btn-block text-uppercase text-weight-bold animation">Sign
-								Up Now</button>
-						</div>
-						<div class="col-sm-12 text-center">
-							<h6 class="text-weight-bold">
-								<label> <input type="checkbox"> <span>I
-										have read &amp; accepted the terms and conditions and privacy
-										policy</span>
-								</label>
-							</h6>
-						</div>
-					</div>
-					<!-- Nested Row Ends -->
-				</form>
-				<!-- Newsletter Form Ends -->
-			</div>
-			<!-- Nested Container Ends -->
-		</section>
-		<!-- Newsletter Section Ends -->
+		</form>
+		<!-- Newsletter Form Ends -->
+	</div>
+	<!-- Nested Container Ends -->
+</section>
+<!-- Newsletter Section Ends -->
 
 
 
 
 
-		<%@ include file="../include/footer.jspf"%>
+<%@ include file="../include/footer.jspf"%>

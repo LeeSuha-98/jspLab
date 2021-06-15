@@ -1,4 +1,46 @@
 package vo;
+//´Ù ¹Ù²Þ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 public class Storeinfo {
 	private int storeno;
@@ -8,9 +50,10 @@ public class Storeinfo {
 	private String time;
 	private String closeddays;
 	private int callnumber;
+	private int manageno;
 	
 	public Storeinfo(int storeno, String storename, String storepic, String address, String time, String closeddays,
-			int callnumber) {
+			int callnumber, int manageno) {
 		super();
 		this.storeno = storeno;
 		this.storename = storename;
@@ -19,6 +62,7 @@ public class Storeinfo {
 		this.time = time;
 		this.closeddays = closeddays;
 		this.callnumber = callnumber;
+		this.manageno = manageno;
 	}
 
 	public Storeinfo(int int1, String string, int int2, String string2) {
@@ -81,7 +125,13 @@ public class Storeinfo {
 		this.callnumber = callnumber;
 	}
 	
-	
+	public int getManageno() {
+		return manageno;
+	}
+
+	public void setManageno(int manageno) {
+		this.manageno = manageno;
+	}
 	
 	
 
